@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+</head>
+<body style="background-color: #09395c;">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" style="width: 75px; height: 75px; margin-right: 10px; margin-bottom: -15px;">
+    <h1 style="display: inline; color: #10cccc;">Chatbot</h1>
+    <div id="chat-container">
+        <div id="chat" style="height: 200px; overflow-y: scroll;"></div>
+        <form id="chat-form" onsubmit="sendMessage(event)">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        function sendMessage(event) {
+            event.preventDefault();  // Prevent form submission
+            var userInput = document.getElementById('user-input').value;
+            var chatContainer = document.getElementById('chat');
+            chatContainer.innerHTML += '<p style="color: #aeccd9;">User: ' + userInput + '</p>';
+            document.getElementById('user-input').value = '';  // Clear input field
+            scrollToBottom(chatContainer);  // Scroll to bottom of chat container
+            fetch('/chat', {
+                method: 'POST',
+                body: new URLSearchParams({'user_input': userInput}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(response => response.json())
+            .then(data => {
+                chatContainer.innerHTML += '<p style="color: #10cccc;">Bot: ' + data.response + '</p>';
+                scrollToBottom(chatContainer);  // Scroll to bottom of chat container
+            });
+        }
+
+        function scrollToBottom(element) {
+            element.scrollTop = element.scrollHeight;
+        }
+    </script>
+</body>
+</html>
