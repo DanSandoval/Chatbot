@@ -40,7 +40,7 @@ df = pd.read_csv(file_path)
 # Replace 'service_description' with your actual column name
 texts = df_long['Description'].tolist()  # This is correct
 
-api_key = "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"
+api_key = "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"
 
 # Assuming df_long is already created by melting df
 
