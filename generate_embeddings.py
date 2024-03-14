@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 import time
+import os
 
 # Load the CSV file
 df = pd.read_csv(r"C:\Users\Dan's PC\Desktop\tinyWeatherSet.csv")
@@ -40,7 +41,7 @@ df = pd.read_csv(file_path)
 # Replace 'service_description' with your actual column name
 texts = df_long['Description'].tolist()  # This is correct
 
-api_key = "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"
+api_key = os.getenv("OPENAI_API_KEY")
 
 # Assuming df_long is already created by melting df
 
